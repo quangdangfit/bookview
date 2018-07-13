@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load staticfiles %}
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css">
+    {% block title %}
+    {% endblock %}
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-8">
+              {% block content %}
+              {% endblock %}
+            </div>
+            <div class="col-sm-2">
+                {% if user.is_authenticated %}
+                    <p>Welcome {{ user.first_name }} {{ user.last_name }}</p>
+                    <p><a href="{% url 'logout' %}">Logout</a></p>
+                {% else %}
+                    <a href="{% url 'social:begin' 'google-oauth2' %}">Login by Google+</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
