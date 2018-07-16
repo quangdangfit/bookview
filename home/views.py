@@ -1,14 +1,81 @@
+from django.contrib import messages
+from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
-from home.models import Sach, TacGia, Loai
-from django.contrib.auth import logout as auth_logout
+from home.models import Sach, TacGia, Loai, NgonNgu
+from django.contrib.auth import logout as auth_logout, authenticate, login
 from home.forms import CommentForm
 from django.http import HttpResponseRedirect
 
 
 # Create your views here.
+def search(input):
+    books = []
+    all = Sach.objects.all()
+    for book in all:
+        if input.lower() in book.ten_sach.lower():
+            books.append(book)
+    return books
+
+
 def index(request):
     booklist = Sach.objects.all()
-    return render(request, 'home/index.html', {'booklist': booklist})
+    if 'search' in request.GET:
+        if request.GET['search'] is not None:
+            booklist = search(request.GET['search'])
+    languages = NgonNgu.objects.all()
+    types = Loai.objects.all().filter(cha=None)
+
+    context = {
+        'booklist': booklist,
+        'languages': languages,
+        'types': types,
+    }
+    return render(request, 'home/index.html', context)
+
+
+def my_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect(index)
+        else:
+            messages.error(request, 'Username or password not correct, please try again.')
+            return redirect('my_login')
+    else:
+        return render(request, 'home/login.html')
+
+
+def register(request):
+    flag = False
+    if request.method == 'POST':
+        emails = []
+        users = User.objects.all()
+        for user in users:
+            emails.append(user.email)
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        username = request.POST['username']
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+        email = request.POST['email']
+
+        if password1 != password2:
+            messages.error(request, "Your passwords didn't match.")
+            return redirect('register')
+        elif email in emails:
+            messages.error(request, "Your email is used.")
+            return redirect('register')
+        else:
+            User.objects.create_user(username=username, email=email, password=password1, first_name=first_name, last_name=last_name)
+        user = authenticate(request, username=username, password=password1)
+        if user is not None:
+            login(request, user)
+            return redirect(index)
+    else:
+        return render(request, 'home/register.html')
 
 
 def detail(request, ma_sach):

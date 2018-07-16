@@ -48,7 +48,6 @@ class Sach(models.Model):
     ma_sach = models.IntegerField(primary_key=True)
     ten_sach = models.CharField(max_length=150)
     bia_sach = models.ImageField(null=True)
-    models.ImageField()
     isbn = models.CharField(max_length=15)
     so_trang = models.IntegerField(blank=True, null=True)
     namxb = models.TextField(blank=True, null=True)  # This field type is a guess.

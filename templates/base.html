@@ -1,29 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-{% load staticfiles %}
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" type="text/css">
-    {% block title %}
-    {% endblock %}
+    {% load staticfiles %}
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-2">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{% url 'index' %}">Home</a>
             </div>
-            <div class="col-sm-8">
-              {% block content %}
-              {% endblock %}
-            </div>
-            <div class="col-sm-2">
-                {% if user.is_authenticated %}
-                    <p>Welcome {{ user.first_name }} {{ user.last_name }}</p>
-                    <p><a href="{% url 'logout' %}">Logout</a></p>
-                {% else %}
-                    <a href="{% url 'social:begin' 'google-oauth2' %}">Login by Google+</a>
-                {% endif %}
-            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="#">Help</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+            {% if user.is_authenticated %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{ user.first_name }} {{ user.last_name }}</a></li>
+                    <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                </ul>
+            {% else %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{% url 'register' %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="{% url 'my_login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+            {% endif %}
+        </div>
+    </nav>
+    <div class="row">
+        <div class=col-sm-2>
+        </div>
+        <div class="col-sm-8">
+            <h1>
+                {% block header %}
+                {% endblock %}
+            </h1>
+            <hr>
+            {% block content %}
+            {% endblock %}
         </div>
     </div>
 </body>

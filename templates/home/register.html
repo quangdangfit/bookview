@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Home
+    Register
 {% endblock %}
 
 {% block header %}
-    Login
+    Register
 {% endblock %}
 
 {% block content %}
@@ -19,15 +19,28 @@
         <form class="form-signin" method="post">
             {% csrf_token %}
             <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+            <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label for="first_name" class="sr-only">First Name</label>
+                    <input id="first_name" name="first_name" class="form-control" style="margin-bottom: 10px" placeholder="First Name" required="" autofocus="">
+                </div>
+                <div class="col-sm-6">
+                    <label for="last_name" class="sr-only">Last Name</label>
+                    <input id="last_name" name="last_name" class="form-control" style="margin-bottom: 10px" placeholder="Last Name" required="" autofocus="">
+                </div>
+            </div>
             <label for="username" class="sr-only">Username</label>
             <input id="username" name="username" class="form-control" style="margin-bottom: 10px" placeholder="Username" required="" autofocus="">
-            <label for="password" class="sr-only">Password</label>
-            <input id="password" name="password" class="form-control" placeholder="Password" required="" type="password">
-            <div class="checkbox mb-3">
-            </div>
+            <label for="email" class="sr-only">Email</label>
+            <input id="email" name="email" class="form-control" style="margin-bottom: 10px" placeholder="Email" required="" autofocus="">
+            <label for="password1" class="sr-only">Password</label>
+            <input id="password1" name="password1" class="form-control" style="margin-bottom: 10px" placeholder="Password" required="" type="password">
+            <label for="password2" class="sr-only">Confirm Password</label>
+            <input id="password2" name="password2" class="form-control" placeholder="Confirm Password" required="" type="password">
+            <br>
             <div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
             </div>
             <hr class="custom">
         </form>

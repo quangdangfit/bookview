@@ -1,12 +1,32 @@
 {% extends 'base.html' %}
 
 {% block title %}
-        <title>Home</title>
+    Home
+{% endblock %}
+
+{% block header %}
+    <form class="navbar-form navbar-right" action="" method="get">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="search">
+        </div>
+        <button type="submit" class="btn btn-default">Search</button>
+    </form>
+    <br>
+    List of Books
+    <br>
 {% endblock %}
 
 {% block content %}
-    <h1>List of Books</h1>
-    {% for book in booklist %}
-        <p><a href="{% url 'detail' book.ma_sach %}">{{ book.ten_sach }}</a></p>
-    {% endfor %}
+    <div class="container" style="padding-top:10px; width:100%; height:450px">
+        <div class="row">
+        {% for book in booklist %}
+            <div class="col-sm-4">
+            <center>
+                <a href="{% url 'detail' book.ma_sach %}"><img src="{{ book.bia_sach.url }}" class="custom-center" height="350px" width="250px"></a>
+                <a href="{% url 'detail' book.ma_sach %}"><h4 style="width: 250px;">{{ book.ten_sach }}</h4></a>
+            </center>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
 {% endblock %}
