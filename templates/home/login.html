@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block header %}
-    Login
+    Đăng nhập
 {% endblock %}
 
 {% block content %}
@@ -19,18 +19,17 @@
         <form class="form-signin" method="post">
             {% csrf_token %}
             <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
             <label for="username" class="sr-only">Username</label>
             <input id="username" name="username" class="form-control" style="margin-bottom: 10px" placeholder="Username" required="" autofocus="">
             <label for="password" class="sr-only">Password</label>
             <input id="password" name="password" class="form-control" placeholder="Password" required="" type="password">
             <br>
             <div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Đăng nhập</button>
             </div>
             <hr class="custom">
         </form>
-        <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-lg btn-primary btn-block">Sign in with Google Account</a>
+        <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-lg btn-primary btn-block">Đăng nhập với tài khoản Google</a>
     </div>
 
 {% endblock %}

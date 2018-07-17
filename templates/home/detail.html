@@ -16,32 +16,39 @@
             </div>
             <div class="col-sm-8">
                 <h4>
-                    Author:
+                    Tác giả:
                     {% for author in book.tac_gia.all %}
                         <a href="{% url 'author_profile' author.ma_tg %}">{{ author.ten_tg }}</a>,
                     {% endfor %}
                 </h4>
                 <h4>
-                    Genre:
+                    Thể loại:
                     {% for genre in book.the_loai.all %}
                         <a href="{% url 'genre_detail' genre.ma_loai %}">{{ genre.ten_loai }}</a>,
                     {% endfor %}
                 </h4>
-                <h4>{{ book.hinh_thuc }}</h4>
-                <h4>{{ book.so_trang }} pages</h4>
+                <h4>Hình thức: {{ book.hinh_thuc }}</h4>
+                <h4>Số trang: {{ book.so_trang }} pages</h4>
                 <h4>ISBN: {{ book.isbn }}</h4>
-                <h4>Published in {{ book.namxb }}</h4>
-                <h4>Language: {{ book.ngon_ngu }}</h4>
+                <h4>Năm xuất bản: {{ book.namxb }}</h4>
+                <h4>Ngôn ngữ: {{ book.ngon_ngu }}</h4>
+                <h4>
+                    Các phiên bản: 
+                    {% for book in editions %}
+                        <a href="{% url 'detail' book.ma_sach %}">{{ book.ten_sach }}</a>,
+                    {% endfor %}
+                    
+                </h4>
                 <br>
             </div>
         </div>
         <hr>
+        <h4>Chi tiết:</h4>
         <p>{{ book.mo_ta|linebreaks }}</p>
     <hr>
     <div class="row">
-        <div class="col-sm-1"></div>
         <div class="col-sm-10">
-        <h3>Comments:</h3>
+        <h3>Nhận xét:</h3>
             {% for comment in book.nhan_xet.all %}
             <div class="media-body">
                 <div class="well well-lg">
@@ -61,8 +68,8 @@
             {% if user.is_authenticated %}
                 <form action="{% url 'detail' book.ma_sach %}" method="post">
                     {% csrf_token %}
-                    <p><label>Add comment</label></p>
-                    {{ form }}
+                    <p><label>Thêm nhận xét</label></p>
+                    <input id="noi_dung" name="noi_dung" class="form-control" style="margin-bottom: 10px" placeholder="Thêm nhận xét" required="" autofocus="">
                     <br>
                     <input type="submit" class="btn btn-default" value="Comment"/>
                     <hr>

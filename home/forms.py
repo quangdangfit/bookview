@@ -7,6 +7,7 @@ class CommentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.tac_gia = kwargs.pop('tac_gia', None)
         self.sach = kwargs.pop('sach', None)
+        self.noi_dung = kwargs.pop('noi_dung', None)
         super().__init__(*args, **kwargs)
 
         for visible in self.visible_fields():
@@ -17,6 +18,7 @@ class CommentForm(forms.ModelForm):
         nhan_xet = super().save(commit=False)
         nhan_xet.tac_gia = self.tac_gia
         nhan_xet.sach = self.sach
+        nhan_xet.noi_dung = self.noi_dung
         nhan_xet.save()
 
     class Meta:

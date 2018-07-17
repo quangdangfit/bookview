@@ -48,6 +48,14 @@ class TacGia(models.Model):
         return self.ten_tg
 
 
+class PhienBan(models.Model):
+    ma_pb = models.AutoField(primary_key=True)
+    ten_pb = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.ten_pb
+
+
 class Sach(models.Model):
     ma_sach = models.AutoField(primary_key=True)
     ten_sach = models.CharField(max_length=150)
@@ -59,6 +67,7 @@ class Sach(models.Model):
     ngon_ngu = models.ForeignKey(NgonNgu, models.DO_NOTHING, db_column='ngon_ngu', blank=True, null=True)
     tac_gia = models.ManyToManyField(TacGia)
     the_loai = models.ManyToManyField(Loai)
+    phien_ban = models.ForeignKey(PhienBan, models.DO_NOTHING, db_column='phien_ban', blank=True, null=True)
     mo_ta = models.TextField(blank=True, null=True)
 
     def __str__(self):

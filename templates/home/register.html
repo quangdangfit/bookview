@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Register
+    Đăng kí
 {% endblock %}
 
 {% block header %}
-    Register
+    Đăng kí
 {% endblock %}
 
 {% block content %}
@@ -19,7 +19,6 @@
         <form class="form-signin" method="post">
             {% csrf_token %}
             <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-            <h1 class="h3 mb-3 font-weight-normal">Register</h1>
             <div class="row">
                 <div class="col-sm-6">
                     <label for="first_name" class="sr-only">First Name</label>
@@ -40,7 +39,7 @@
             <input id="password2" name="password2" class="form-control" placeholder="Confirm Password" required="" type="password">
             <br>
             <div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Đăng kí</button>
             </div>
         </form>
     </div>

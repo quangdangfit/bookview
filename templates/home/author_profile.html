@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-        Auhthor: {{ author.ten_tg }}
+        Tác giả: {{ author.ten_tg }}
 {% endblock %}
 
 {% block content %}
@@ -12,10 +12,11 @@
             </div>
             <div class="col-sm-8">
                 <h1>{{ author.ten_tg }}</h1>
-                <p>Born {{ author.nam_sinh }}, {{ author.que_quan }}</p>
+                <p>Sinh năm {{ author.nam_sinh }} tại {{ author.que_quan }}</p>
                 <p>
 
                 </p>
+                Các thể loại:
                 {% for genre in author.the_loai.all %}
                     <a href="{% url 'genre_detail' genre.ma_loai %}">{{ genre.ten_loai }}</a>,
                 {% endfor %}
