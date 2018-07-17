@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from home.models import Sach, TacGia, Loai, NhanXet
-from django.contrib.auth import logout as auth_logout, authenticate, login
+from django.contrib.auth import logout as auth_logout, authenticate, login as auth_login
 from home.forms import CommentForm
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import ListView, DetailView, TemplateView
@@ -30,42 +30,6 @@ def index(request):
     return render(request, 'home/index.html', context)
 
 
-def my_login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect(index)
-        else:
-            messages.error(request, 'Username or password not correct, please try again.')
-            return redirect('my_login')
-
-
-def my_register(request):
-    if request.method == 'POST':
-        first_name = request.POST['first_name']
-        last_name = request.POST['last_name']
-        username = request.POST['username']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
-        email = request.POST['email']
-
-        if password1 != password2:
-            messages.error(request, "Your passwords didn't match.")
-            return redirect('register')
-        elif User.objects.filter(email=email).exists():
-            messages.error(request, "Your email is used.")
-            return redirect('register')
-        else:
-            User.objects.create_user(username=username, email=email, password=password1, first_name=first_name, last_name=last_name)
-        user = authenticate(request, username=username, password=password1)
-        if user is not None:
-            login(request, user)
-            return redirect(index)
-
-
 def logout(request):
     auth_logout(request)
     return redirect('index')
@@ -80,15 +44,48 @@ class BookListView(ListView):
 class RegisterView(TemplateView):
     template_name = 'home/register.html'
 
-    def register(self):
-        my_register(self.request)
+    def post(self, request):
+        if request.method == 'POST':
+            first_name = request.POST['first_name']
+            last_name = request.POST['last_name']
+            username = request.POST['username']
+            password1 = request.POST['password1']
+            password2 = request.POST['password2']
+            email = request.POST['email']
+
+            if password1 != password2:
+                messages.error(request, "Your passwords didn't match.")
+                return redirect('register')
+            elif User.objects.filter(email=email).exists():
+                messages.error(request, "Your email is used.")
+                return redirect('register')
+            elif User.objects.filter(username=username).exists():
+                messages.error(request, "Your username is used.")
+                return redirect('register')
+            else:
+                User.objects.create_user(username=username, email=email, password=password1, first_name=first_name,
+                                         last_name=last_name)
+            user = authenticate(request, username=username, password=password1)
+            if user is not None:
+                auth_login(request, user)
+                return redirect('index')
 
 
 class LoginView(TemplateView):
     template_name = 'home/login.html'
 
-    def login(self):
-        my_login(self.request)
+    def post(self, request):
+        print('ahihi')
+        if request.method == 'POST':
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                auth_login(request, user)
+                return redirect('index')
+            else:
+                messages.error(request, 'Username or password not correct, please try again.')
+                return redirect('my_login')
 
 
 class BookDetailView(DetailView):
