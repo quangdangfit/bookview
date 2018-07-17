@@ -17,13 +17,13 @@
             <div class="col-sm-8">
                 <h4>
                     Author:
-                    {% for author in authors %}
+                    {% for author in book.tac_gia.all %}
                         <a href="{% url 'author_profile' author.ma_tg %}">{{ author.ten_tg }}</a>,
                     {% endfor %}
                 </h4>
                 <h4>
                     Genre:
-                    {% for genre in genres %}
+                    {% for genre in book.the_loai.all %}
                         <a href="{% url 'genre_detail' genre.ma_loai %}">{{ genre.ten_loai }}</a>,
                     {% endfor %}
                 </h4>
@@ -62,7 +62,7 @@
                 <form action="{% url 'detail' book.ma_sach %}" method="post">
                     {% csrf_token %}
                     <p><label>Add comment</label></p>
-                    {{ form.noi_dung }}
+                    {{ form }}
                     <br>
                     <input type="submit" class="btn btn-default" value="Comment"/>
                     <hr>

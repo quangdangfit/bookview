@@ -16,7 +16,7 @@
                 <p>
 
                 </p>
-                {% for genre in genres %}
+                {% for genre in author.the_loai.all %}
                     <a href="{% url 'genre_detail' genre.ma_loai %}">{{ genre.ten_loai }}</a>,
                 {% endfor %}
                 <br>

@@ -10,7 +10,7 @@ from django.conf import settings
 
 
 class HinhThuc(models.Model):
-    ma_ht = models.IntegerField(primary_key=True)
+    ma_ht = models.AutoField(primary_key=True)
     ten_ht = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
@@ -18,7 +18,7 @@ class HinhThuc(models.Model):
 
 
 class Loai(models.Model):
-    ma_loai = models.IntegerField(primary_key=True)
+    ma_loai = models.AutoField(primary_key=True)
     ten_loai = models.CharField(max_length=45)
     mo_ta = models.TextField(blank=True, null=True)
     cha = models.ForeignKey('self', models.DO_NOTHING, db_column='cha', blank=True, null=True)
@@ -27,66 +27,42 @@ class Loai(models.Model):
         return self.ten_loai
 
 
-class LoaiSach(models.Model):
-    id = models.IntegerField(primary_key=True)
-    ma_sach = models.ForeignKey('Sach', models.DO_NOTHING, db_column='ma_sach')
-    ma_loai = models.ForeignKey(Loai, models.DO_NOTHING, db_column='ma_loai')
-
-    def __str__(self):
-        return str(self.ma_sach) + ' - ' + str(self.ma_loai)
-
-
 class NgonNgu(models.Model):
-    ma_nn = models.IntegerField(primary_key=True)
+    ma_nn = models.AutoField(primary_key=True)
     ten_nn = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.ten_nn
 
 
-class Sach(models.Model):
-    ma_sach = models.IntegerField(primary_key=True)
-    ten_sach = models.CharField(max_length=150)
-    bia_sach = models.ImageField(null=True)
-    isbn = models.CharField(max_length=15)
-    so_trang = models.IntegerField(blank=True, null=True)
-    namxb = models.TextField(blank=True, null=True)  # This field type is a guess.
-    hinh_thuc = models.ForeignKey(HinhThuc, models.DO_NOTHING, db_column='hinh_thuc', blank=True, null=True)
-    ngon_ngu = models.ForeignKey(NgonNgu, models.DO_NOTHING, db_column='ngon_ngu', blank=True, null=True)
-    mo_ta = models.TextField(blank=True, null=True)
-
-    def __str__(self):
-        return self.ten_sach
-
-
 class TacGia(models.Model):
-    ma_tg = models.IntegerField(primary_key=True)
+    ma_tg = models.AutoField(primary_key=True)
     ten_tg = models.CharField(max_length=100)
     hinh = models.ImageField(null=True)
-    nam_sinh = models.TextField(blank=True, null=True)  # This field type is a guess.
+    nam_sinh = models.IntegerField(default=0)
     que_quan = models.CharField(max_length=150, blank=True, null=True)
+    the_loai = models.ManyToManyField(Loai)
     mo_ta = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.ten_tg
 
 
-class TacGiaSach(models.Model):
-    id = models.IntegerField(primary_key=True)
-    ma_sach = models.ForeignKey(Sach, models.DO_NOTHING, db_column='ma_sach')
-    ma_tg = models.ForeignKey(TacGia, models.DO_NOTHING, db_column='ma_tg')
+class Sach(models.Model):
+    ma_sach = models.AutoField(primary_key=True)
+    ten_sach = models.CharField(max_length=150)
+    bia_sach = models.ImageField(null=True)
+    isbn = models.CharField(max_length=15)
+    so_trang = models.IntegerField(blank=True, null=True)
+    namxb = models.IntegerField(default=0)
+    hinh_thuc = models.ForeignKey(HinhThuc, models.DO_NOTHING, db_column='hinh_thuc', blank=True, null=True)
+    ngon_ngu = models.ForeignKey(NgonNgu, models.DO_NOTHING, db_column='ngon_ngu', blank=True, null=True)
+    tac_gia = models.ManyToManyField(TacGia)
+    the_loai = models.ManyToManyField(Loai)
+    mo_ta = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return str(self.ma_sach) + ' - ' + str(self.ma_tg)
-
-
-class TacGiaTheLoai(models.Model):
-    id = models.IntegerField(primary_key=True)
-    ma_tg = models.ForeignKey(TacGia, models.DO_NOTHING, db_column='ma_tg', blank=True, null=True)
-    ma_loai = models.ForeignKey(Loai, models.DO_NOTHING, db_column='ma_loai', blank=True, null=True)
-
-    def __str__(self):
-        return str(self.ma_tg) + ' - ' + str(self.ma_loai)
+        return self.ten_sach
 
 
 class NhanXet(models.Model):

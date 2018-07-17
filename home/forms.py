@@ -3,10 +3,12 @@ from home.models import NhanXet
 
 
 class CommentForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         self.tac_gia = kwargs.pop('tac_gia', None)
         self.sach = kwargs.pop('sach', None)
         super().__init__(*args, **kwargs)
+
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
             visible.field.widget.attrs['rows'] = '4'
