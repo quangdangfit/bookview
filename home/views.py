@@ -79,7 +79,7 @@ class BookDetailView(DetailView):
     def get_context_data(self, **kwargs):
         self.object = self.get_object()
         context = super().get_context_data(**kwargs)
-        context['editions'] = Sach.objects.filter(phien_ban=self.object.phien_ban).exclude(ma_sach=self.object.ma_sach)
+        context['editions'] = Sach.objects.filter(phien_ban=self.object.phien_ban)
         return context
 
     def post(self, request, pk):
@@ -96,8 +96,20 @@ class AuthorDetailView(DetailView):
     template_name = 'home/author_profile.html'
     context_object_name = 'author'
 
+    def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+        context = super().get_context_data(**kwargs)
+        context['booklist'] = Sach.objects.filter(tac_gia__in=[self.object])
+        return context
+
 
 class GenreDetailView(DetailView):
     model = Loai
     template_name = 'home/genre_detail.html'
     context_object_name = 'genre'
+
+    def get_context_data(self, **kwargs):
+        self.object = self.get_object()
+        context = super().get_context_data(**kwargs)
+        context['booklist'] = Sach.objects.filter(the_loai__in=[self.object])
+        return context

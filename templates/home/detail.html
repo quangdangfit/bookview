@@ -4,10 +4,6 @@
         Book: {{ book.ten_sach }}
 {% endblock %}
 
-{% block header %}
-{{ book.ten_sach }}
-{% endblock %}
-
 {% block content %}
     <div class="container-fluid">
         <div class="row">
@@ -15,6 +11,7 @@
                 <img src="{{ book.bia_sach.url }}" height="500px" width="350px">
             </div>
             <div class="col-sm-8">
+                <h1>{{ book.ten_sach }}</h1>
                 <h4>
                     Tác giả:
                     {% for author in book.tac_gia.all %}
@@ -33,11 +30,13 @@
                 <h4>Năm xuất bản: {{ book.namxb }}</h4>
                 <h4>Ngôn ngữ: {{ book.ngon_ngu }}</h4>
                 <h4>
-                    Các phiên bản: 
-                    {% for book in editions %}
-                        <a href="{% url 'detail' book.ma_sach %}">{{ book.ten_sach }}</a>,
-                    {% endfor %}
-                    
+                    {% if book.phien_ban %}
+                        Các phiên bản:
+                        {% for book in editions %}
+                            <a href="{% url 'detail' book.ma_sach %}">{{ book.ten_sach }}</a>,
+                        {% endfor %}
+                    {% endif %}
+
                 </h4>
                 <br>
             </div>
@@ -68,8 +67,10 @@
             {% if user.is_authenticated %}
                 <form action="{% url 'detail' book.ma_sach %}" method="post">
                     {% csrf_token %}
-                    <p><label>Thêm nhận xét</label></p>
-                    <input id="noi_dung" name="noi_dung" class="form-control" style="margin-bottom: 10px" placeholder="Thêm nhận xét" required="" autofocus="">
+                    <div class="form-group">
+                        <label for="exampleTextarea">Thêm nhận xét</label>
+                        <textarea class="form-control" id="noi_dung" name="noi_dung" rows="3" placeholder="Thêm nhận xét"></textarea>
+                    </div>
                     <br>
                     <input type="submit" class="btn btn-default" value="Comment"/>
                     <hr>

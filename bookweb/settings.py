@@ -86,8 +86,11 @@ WSGI_APPLICATION = 'bookweb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3'
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'booksmanager',
+        'USER': 'root',
+        'PASSWORD': 'quang',
+        'PORT': 3306,
     }
 }
 

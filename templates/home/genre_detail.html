@@ -14,4 +14,17 @@
             </div>
         </div>
     </div>
+    <h2>Sách thuộc thể loại {{ genre.ten_loai }}</h2>
+        <div class="container" style="padding-top:10px; width:100%; height:450px">
+            <div class="row">
+            {% for book in booklist %}
+                <div class="col-sm-4">
+                <center>
+                    <a href="{% url 'detail' book.ma_sach %}"><img src="{{ book.bia_sach.url }}" class="custom-center" height="350px" width="250px"></a>
+                    <a href="{% url 'detail' book.ma_sach %}"><h4 style="width: 250px;">{{ book.ten_sach }}</h4></a>
+                </center>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
 {% endblock %}
