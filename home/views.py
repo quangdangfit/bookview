@@ -21,8 +21,13 @@ class BookListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        books = []
         if 'search' in self.request.GET:
-            context['booklist'] = Sach.objects.filter(ten_sach__contains=self.request.GET['search'])
+            for book in Sach.objects.all():
+                if self.request.GET['search'].lower() in book.ten_sach.lower():
+                    books.append(book)
+            # context['booklist'] = Sach.objects.filter(ten_sach__contains=self.request.GET['search'])
+            context['booklist'] = books
         return context
 
 
