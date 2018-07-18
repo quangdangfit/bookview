@@ -1,0 +1,6 @@
+'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'quangdangfit$default',
+        'USER': 'quangdangfit',
+        'HOST': 'quangdangfit.mysql.pythonanywhere-services.com',
+        'PASSWORD': 'quanghaloit',
+        'PORT': 3306,
