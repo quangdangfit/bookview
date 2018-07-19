@@ -24,7 +24,7 @@ SECRET_KEY = 'xyys$srg#ghwk%2ghy7p*ml9l%9^vh4-+@+5-8h1t#*bk8qdsq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['bookshowapp.herokuapp.com']
 
 # Application definition
 
@@ -144,6 +144,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
