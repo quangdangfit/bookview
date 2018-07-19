@@ -18,7 +18,8 @@
                 </p>
                 Các thể loại:
                 {% for genre in author.the_loai.all %}
-                    <a href="{% url 'genre_detail' genre.ma_loai %}">{{ genre.ten_loai }}</a>,
+                    <a href="{% url 'genre_detail' genre.ma_loai %}">{{ genre.ten_loai }}</a>
+                    {% if genre != author.the_loai.all.last %}, {% endif %}
                 {% endfor %}
                 <br>
             </div>

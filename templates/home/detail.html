@@ -15,13 +15,15 @@
                 <h4>
                     Tác giả:
                     {% for author in book.tac_gia.all %}
-                        <a href="{% url 'author_profile' author.ma_tg %}">{{ author.ten_tg }}</a>,
-                    {% endfor %}
+                        <a href="{% url 'author_profile' author.ma_tg %}">{{ author.ten_tg }}</a>
+                        {% if author != book.tac_gia.all.last %}, {% endif %}
+              {% endfor %}
                 </h4>
                 <h4>
                     Thể loại:
                     {% for genre in book.the_loai.all %}
-                        <a href="{% url 'genre_detail' genre.ma_loai %}">{{ genre.ten_loai }}</a>,
+                        <a href="{% url 'genre_detail' genre.ma_loai %}">{{ genre.ten_loai }}</a>
+                        {% if genre != book.the_loai.all.last %}, {% endif %}
                     {% endfor %}
                 </h4>
                 <h4>Hình thức: {{ book.hinh_thuc }}</h4>
@@ -33,7 +35,8 @@
                     {% if book.phien_ban %}
                         Các phiên bản:
                         {% for book in editions %}
-                            <a href="{% url 'detail' book.ma_sach %}">{{ book.ten_sach }}</a>,
+                            <a href="{% url 'detail' book.ma_sach %}">{{ book.ten_sach }}</a>
+                            {% if book != editions.last %}, {% endif %}
                         {% endfor %}
                     {% endif %}
 
