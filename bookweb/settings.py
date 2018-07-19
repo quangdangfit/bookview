@@ -84,11 +84,11 @@ WSGI_APPLICATION = 'bookweb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'booksmanager',
-        'USER': 'root',
-        'PASSWORD': 'quang',
-        'PORT': 3306,
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'PORT': '',
     }
 }
 
