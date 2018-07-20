@@ -1,6 +1,7 @@
 .git/
 env/
 .idea/
+media/
 connection.txt
 *.pyc
 db.sqlite3
