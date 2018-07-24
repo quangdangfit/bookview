@@ -34,12 +34,16 @@
                 <a class="navbar-brand" href="{% url 'index' %}">Trang chủ</a>
             </div>
             <ul class="nav navbar-nav">
-                <li><a href="#">Trợ giúp</a></li>
-                <li><a href="#">Thông tin</a></li>
+                <li><a href="{% url 'author_list' %}">Tác giả</a></li>
+                {% for group in user.groups.all %}
+                    {% if group.name == 'Author' %}
+                        <li><a href="{% url 'create_book' %}">Thêm sách</a></li>
+                    {% endif %}
+                {% endfor %}
             </ul>
             {% if user.is_authenticated %}
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> {{ user.first_name }} {{ user.last_name }}</a></li>
+                    <li><a href="{% url 'user_profile' user.id %}"><span class="glyphicon glyphicon-user"></span> {{ user.first_name }} {{ user.last_name }}</a></li>
                     <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span> Đăng xuất</a></li>
                 </ul>
             {% else %}

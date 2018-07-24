@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}User{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div>
+                <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                <br>
+                <h4>Username: {{ user.username }}</h4>
+                <h4>Email: {{ user.email }}</h4>
+                <h4>Date joined: {{ user.date_joined }}</h4>
+                <h4>Last login: {{ user.last_login }}</h4>
+                <hr>
+                <h4><a href="#">Trở thành một tác giả</a></h4>
+            </div>
+        </div>
+    </div>
+{% endblock %}

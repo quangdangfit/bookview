@@ -50,34 +50,36 @@
     <hr>
     <div class="row">
         <div class="col-sm-10">
-        <h3>Nhận xét:</h3>
-            {% for comment in book.nhan_xet.all %}
-            <div class="media-body">
-                <div class="well well-lg">
-                <p>
-                    <h4 class="media-heading text-uppercase reviews"> {{ comment.tac_gia.first_name }} {{ comment.tac_gia.last_name }} </h4>
-                </p>
-                    <ul class="media-date text-uppercase reviews list-inline border-right">
-                        <li>{{ comment.ngay_dang }}</li>
-                    </ul>
-                    <p class="media-comment">
-                        {{ comment.noi_dung|linebreaks }}
+            {% if book.nhan_xet.all.exists %}
+                <h3>Nhận xét:</h3>
+                {% for comment in book.nhan_xet.all %}
+                <div class="media-body">
+                    <div class="well well-lg">
+                    <p>
+                        <h4 class="media-heading text-uppercase reviews"> {{ comment.tac_gia.first_name }} {{ comment.tac_gia.last_name }} </h4>
                     </p>
+                        <ul class="media-date text-uppercase reviews list-inline border-right">
+                            <li>{{ comment.ngay_dang }}</li>
+                        </ul>
+                        <p class="media-comment">
+                            {{ comment.noi_dung|linebreaks }}
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <br>
-            {% endfor %}
+                <br>
+                {% endfor %}
+            {% endif %}
             {% if user.is_authenticated %}
                 <form action="{% url 'detail' book.ma_sach %}" method="post">
                     {% csrf_token %}
-                    <div class="form-group">
-                        <label for="exampleTextarea">Thêm nhận xét</label>
-                        <textarea class="form-control" id="noi_dung" name="noi_dung" rows="3" placeholder="Thêm nhận xét"></textarea>
-                    </div>
+                    {{ form.as_p }}
                     <br>
                     <input type="submit" class="btn btn-default" value="Comment"/>
                     <hr>
                 </form>
+            {% else %}
+                <h4>Đăng nhập để nhận xét</h4>
+                <hr>
             {% endif %}
             </div>
         </div>

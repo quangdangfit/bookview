@@ -24,7 +24,7 @@ SECRET_KEY = 'xyys$srg#ghwk%2ghy7p*ml9l%9^vh4-+@+5-8h1t#*bk8qdsq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['bookshowapp.herokuapp.com']
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -84,12 +84,12 @@ WSGI_APPLICATION = 'bookweb.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd6uu12ffn3pfjr',
-        'USER': 'glqjahawkkbhla',
-        'HOST': 'ec2-54-83-59-239.compute-1.amazonaws.com',
-        'PASSWORD': 'fdfe207b9b2ac2b4c4105b25688308dc3df4f39ce1c9ed461ddd2fd65d2379f6',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'booksmanager',
+        'USER': 'root',
+        'HOST': 'localhost',
+        'PASSWORD': os.getenv('MYSQL_PASSWORD', ''),
+        'PORT': 3306,
     }
 }
 

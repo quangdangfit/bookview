@@ -1,11 +1,17 @@
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-from home.models import Sach, TacGia, Loai, NhanXet
+from django.urls import reverse
+
+from home.models import Sach, TacGia, Loai
 from django.contrib.auth import logout as auth_logout, authenticate, login as auth_login
-from home.forms import CommentForm
+from home.forms import CommentForm, BookForm
+from django.views import View
 from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic.edit import FormView, CreateView
+from django.views.generic.detail import SingleObjectMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
@@ -19,20 +25,13 @@ class BookListView(ListView):
     template_name = 'home/index.html'
     context_object_name = 'booklist'
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        books = []
+    def get_queryset(self):
         if 'search' in self.request.GET:
             query = self.request.GET['search']
             if Sach.objects.filter(isbn=query).exists():
-                context['booklist'] = Sach.objects.filter(isbn=query)
-                return context
-            for book in Sach.objects.all():
-                if query.lower() in book.ten_sach.lower():
-                    books.append(book)
-            # context['booklist'] = Sach.objects.filter(ten_sach__contains=self.request.GET['search'])
-            context['booklist'] = books
-        return context
+                return Sach.objects.filter(isbn=query)
+            return Sach.objects.filter(ten_sach__icontains=query)
+        return Sach.objects.all()
 
 
 class RegisterView(TemplateView):
@@ -79,7 +78,7 @@ class LoginView(TemplateView):
             return redirect('my_login')
 
 
-class BookDetailView(DetailView):
+class BookDetailView(DetailView, FormView):
     model = Sach
     template_name = 'home/detail.html'
     context_object_name = 'book'
@@ -93,7 +92,7 @@ class BookDetailView(DetailView):
 
     def post(self, request, pk):
         self.object = self.get_object()
-        form = CommentForm(request.POST, tac_gia=request.user, sach=self.object, noi_dung=request.POST['noi_dung'])
+        form = CommentForm(request.POST, tac_gia=request.user, sach=self.object)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(request.path)
@@ -122,3 +121,46 @@ class GenreDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['booklist'] = Sach.objects.filter(the_loai__in=[self.object])
         return context
+
+
+class AuthorListView(ListView):
+    model = TacGia
+    template_name = 'home/author_list.html'
+    context_object_name = 'authors'
+
+    def get_queryset(self):
+        if self.request.method == 'GET' and 'search' in self.request.GET:
+            query = self.request.GET['search']
+            return TacGia.objects.filter(ten_tg__icontains=query)
+        return TacGia.objects.all()
+
+
+class CreateBookView(CreateView):
+    model = Sach
+    template_name = 'home/create_book.html'
+    success_url = '/'
+    fields = '__all__'
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(CreateBookView, self).get_context_data()
+    #     context['object'] = self.get_object()
+    #     return context
+
+    # def post(self, request, *args, **kwargs):
+    #     form = BookForm(request.POST)
+    #     if form.is_valid():
+    #         form.save()
+    #         return redirect('index')
+    #     return render(request, self.template_name, {'form': form})
+    #
+    # def form_valid(self, form):
+    #     form.save()
+    #     super(CreateBookView, self).form_valid(form)
+    #     return redirect('index')
+
+
+class UserProfile(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = 'home/user_profile.html'
+    login_url = '/login/'
+    context_object_name = 'user'

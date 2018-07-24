@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Tác giả{% endblock %}
+
+{% block header %}
+    <form class="navbar-form navbar-right" action="" method="get">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Author's name" name="search">
+        </div>
+        <button type="submit" class="btn btn-default">Tìm kiếm</button>
+    </form>
+    <br>
+    List of Authors
+    <br>
+{% endblock %}
+
+{% block content %}
+    <div class="grid-container">
+        {% for author in authors %}
+            <div class="grid-item">
+                <center>
+                    <a href="{% url 'author_profile' author.ma_tg %}"><img src="{{ author.hinh.url }}" class="custom-center" height="350px" width="250px"></a>
+                    <a href="{% url 'author_profile' author.ma_tg %}"><h4 style="width: 250px;">{{ author.ten_tg }}</h4></a>
+                </center>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
